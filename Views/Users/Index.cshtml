@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Hosting;
+@using ImageUploadCrude.Data
+@inject IWebHostEnvironment _hostEnvironment;
+@model IEnumerable<ApplicationUser>
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tr>
+                <th>Email</th>
+                <th>FullName</th>
+                <th>Gender</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Email</td>
+                    <td>@item.FullName</td>
+                    <td>@item.Gender</td>
+                    <td>
+                        <a href="/images/@item.Image" target="_blank"><img src="/images/@item.Image" width="100" class="img-thumbnail" /></a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Users" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <form asp-action="Delete" method="post">
+                            <input type="hidden" value="@item.Id" name="Id" />
+                            <button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+</div>
